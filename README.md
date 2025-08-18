@@ -1,2 +1,2 @@
-#  YouTube clone build with UIKit
+#  YouTube clone built with UIKit
 
