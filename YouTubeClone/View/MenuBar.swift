@@ -84,6 +84,28 @@ class MenuBar: UIView {
         return button
     }()
 
+    let indicator: UIView = {
+        let view = UIView()
+
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.backgroundColor = .white
+
+        return view
+    }()
+
+    var indicatorWidthConstraint = NSLayoutConstraint() {
+        didSet {
+            oldValue.isActive = false
+            indicatorWidthConstraint.isActive = true
+        }
+    }
+    var indicatorXConstraint = NSLayoutConstraint() {
+        didSet {
+            oldValue.isActive = false
+            indicatorXConstraint.isActive = true
+        }
+    }
+
     // MARK: - Initializers
 
     override init(frame: CGRect) {
@@ -123,6 +145,7 @@ extension MenuBar {
         stackView.spacing = 24
 
         addSubview(stackView)
+        addSubview(indicator)
 
         // stackView
         NSLayoutConstraint.activate([
@@ -132,6 +155,19 @@ extension MenuBar {
                 constant: 16
             ),
         ])
+
+        // indicator
+        NSLayoutConstraint.activate([
+            indicator.bottomAnchor.constraint(equalTo: bottomAnchor),
+            indicator.heightAnchor.constraint(equalToConstant: 3),
+        ])
+
+        indicatorWidthConstraint = indicator.widthAnchor.constraint(
+            equalTo: homeButton.widthAnchor
+        )
+        indicatorXConstraint = indicator.centerXAnchor.constraint(
+            equalTo: homeButton.centerXAnchor
+        )
     }
 
     func selectItem(at index: Int) {
@@ -155,6 +191,16 @@ extension MenuBar {
 
         UIViewPropertyAnimator(duration: 0.3, curve: .easeInOut) {
             self.setAlpha(for: button)
+
+            self.indicatorWidthConstraint = self.indicator.widthAnchor
+                .constraint(
+                    equalTo: button.widthAnchor
+                )
+            self.indicatorXConstraint = self.indicator.centerXAnchor.constraint(
+                equalTo: button.centerXAnchor
+            )
+
+            self.layoutIfNeeded()
         }.startAnimation()
     }
 
