@@ -93,6 +93,15 @@ class MenuBar: UIView {
         return view
     }()
 
+    let separator: UIView = {
+        let view = UIView()
+
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.backgroundColor = .separator
+
+        return view
+    }()
+
     var indicatorWidthConstraint = NSLayoutConstraint() {
         didSet {
             oldValue.isActive = false
@@ -119,10 +128,6 @@ class MenuBar: UIView {
         fatalError("init(coder:) has not been implemented")
     }
 
-    override var intrinsicContentSize: CGSize {
-        return CGSize(width: 200, height: 42)
-    }
-
 }
 
 // MARK: - Helpers
@@ -146,6 +151,7 @@ extension MenuBar {
 
         addSubview(stackView)
         addSubview(indicator)
+        addSubview(separator)
 
         // stackView
         NSLayoutConstraint.activate([
@@ -158,8 +164,11 @@ extension MenuBar {
 
         // indicator
         NSLayoutConstraint.activate([
-            indicator.bottomAnchor.constraint(equalTo: bottomAnchor),
-            indicator.heightAnchor.constraint(equalToConstant: 3),
+            indicator.topAnchor.constraint(
+                equalTo: stackView.bottomAnchor,
+                constant: 8
+            ),
+            indicator.heightAnchor.constraint(equalToConstant: 2),
         ])
 
         indicatorWidthConstraint = indicator.widthAnchor.constraint(
@@ -168,6 +177,15 @@ extension MenuBar {
         indicatorXConstraint = indicator.centerXAnchor.constraint(
             equalTo: homeButton.centerXAnchor
         )
+
+        // separator
+        NSLayoutConstraint.activate([
+            separator.topAnchor.constraint(equalTo: indicator.bottomAnchor),
+            separator.leadingAnchor.constraint(equalTo: leadingAnchor),
+            separator.trailingAnchor.constraint(equalTo: trailingAnchor),
+            separator.bottomAnchor.constraint(equalTo: bottomAnchor),
+            separator.heightAnchor.constraint(equalToConstant: 1.5),
+        ])
     }
 
     func selectItem(at index: Int) {
