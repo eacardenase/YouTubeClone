@@ -88,7 +88,8 @@ class MenuBar: UIView {
         let view = UIView()
 
         view.translatesAutoresizingMaskIntoConstraints = false
-        view.backgroundColor = .white
+        view.backgroundColor = .label
+        view.layer.cornerRadius = view.bounds.height / 2
 
         return view
     }()
@@ -136,6 +137,7 @@ extension MenuBar {
 
     private func setupViews() {
         translatesAutoresizingMaskIntoConstraints = false
+        backgroundColor = .systemBackground
 
         let stackView = UIStackView(arrangedSubviews: [
             homeButton,

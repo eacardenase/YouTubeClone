@@ -16,7 +16,15 @@ class MenuBarButton: UIButton {
 
         translatesAutoresizingMaskIntoConstraints = false
         setTitle(title, for: .normal)
-        titleLabel?.font = .preferredFont(forTextStyle: .subheadline)
+        setTitleColor(.label, for: .normal)
+
+        guard
+            let fontDescriptor: UIFontDescriptor = .preferredFontDescriptor(
+                withTextStyle: .subheadline
+            ).withSymbolicTraits(.traitBold)
+        else { return }
+
+        titleLabel?.font = UIFont(descriptor: fontDescriptor, size: 0)
     }
 
     required init?(coder: NSCoder) {
