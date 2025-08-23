@@ -103,10 +103,7 @@ extension HomeViewController {
 
         // collectionView
         NSLayoutConstraint.activate([
-            collectionView.topAnchor.constraint(
-                equalTo: divider.bottomAnchor,
-                constant: 16
-            ),
+            collectionView.topAnchor.constraint(equalTo: divider.bottomAnchor),
             collectionView.leadingAnchor.constraint(
                 equalTo: view.safeAreaLayoutGuide.leadingAnchor
             ),
