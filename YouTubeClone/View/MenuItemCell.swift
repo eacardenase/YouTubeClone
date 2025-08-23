@@ -168,7 +168,7 @@ extension MenuItemCell: UICollectionViewDataSource {
 extension MenuItemCell: MenuItemFilterDelegate {
 
     func didSelectFilterAt(index: Int) {
-        print(#function, index)
+        menuFilterView.selectFilter(at: index)
     }
 
 }

@@ -61,6 +61,7 @@ class MenuItemFilter: UIView {
     override init(frame: CGRect) {
         super.init(frame: .zero)
 
+        setBackground(for: latestButton)
         setupViews()
     }
 
@@ -96,6 +97,39 @@ extension MenuItemFilter {
             stackView.trailingAnchor.constraint(equalTo: trailingAnchor),
             stackView.bottomAnchor.constraint(equalTo: bottomAnchor),
         ])
+    }
+
+    func selectFilter(at index: Int) {
+        let button: UIButton
+
+        switch index {
+        case 0:
+            button = latestButton
+        case 1:
+            button = popularButton
+        case 2:
+            button = oldestButton
+        default:
+            button = latestButton
+        }
+
+        UIViewPropertyAnimator(duration: 0.3, curve: .easeInOut) {
+            self.setBackground(for: button)
+        }.startAnimation()
+    }
+
+    private func setBackground(for button: UIButton) {
+        latestButton.configuration?.baseBackgroundColor = .secondarySystemBackground
+        latestButton.setTitleColor(.label, for: .normal)
+        
+        popularButton.configuration?.baseBackgroundColor = .secondarySystemBackground
+        popularButton.setTitleColor(.label, for: .normal)
+        
+        oldestButton.configuration?.baseBackgroundColor = .secondarySystemBackground
+        oldestButton.setTitleColor(.label, for: .normal)
+
+        button.configuration?.baseBackgroundColor = .label
+        button.setTitleColor(.systemBackground, for: .normal)
     }
 
 }

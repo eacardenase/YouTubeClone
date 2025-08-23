@@ -14,13 +14,12 @@ class MenuItemFilterButton: UIButton {
     init(title: String) {
         super.init(frame: .zero)
 
-        var config = UIButton.Configuration.gray()
-        config.cornerStyle = .medium
+        var config = UIButton.Configuration.filled()
+        config.cornerStyle = .large
+        config.baseBackgroundColor = .secondarySystemBackground
 
         configuration = config
 
-        translatesAutoresizingMaskIntoConstraints = false
-        
         setTitle(title, for: .normal)
         setTitleColor(.label, for: .normal)
     }
