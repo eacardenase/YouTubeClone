@@ -201,14 +201,7 @@ extension HomeViewController: UICollectionViewDataSource {
             fatalError("Could not initialize MenuItemCell")
         }
 
-        let menuItem = MenuItem(rawValue: indexPath.item)
-
-        switch menuItem {
-        case .shorts:
-            cell.contentItems = colors
-        default:
-            cell.contentItems = []
-        }
+        cell.contentItems = colors
 
         return cell
     }

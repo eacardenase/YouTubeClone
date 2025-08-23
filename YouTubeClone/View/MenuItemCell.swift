@@ -13,14 +13,12 @@ class MenuItemCell: UICollectionViewCell {
 
     var contentItems: [UIColor] = []
 
-    let flowLayout: UICollectionViewFlowLayout = {
-        let layout = UICollectionViewFlowLayout()
+    lazy var menuFilterView: MenuItemFilter = {
+        let view = MenuItemFilter()
 
-        layout.minimumLineSpacing = 1
-        layout.minimumInteritemSpacing = 1
-        layout.scrollDirection = .vertical
+        view.delegate = self
 
-        return layout
+        return view
     }()
 
     let compositionalLayout: UICollectionViewCompositionalLayout = {
@@ -94,13 +92,35 @@ class MenuItemCell: UICollectionViewCell {
 extension MenuItemCell {
 
     private func setupViews() {
-        addSubview(collectionView)
+        contentView.addSubview(menuFilterView)
+        contentView.addSubview(collectionView)
 
         NSLayoutConstraint.activate([
-            collectionView.topAnchor.constraint(equalTo: topAnchor),
-            collectionView.leadingAnchor.constraint(equalTo: leadingAnchor),
-            collectionView.trailingAnchor.constraint(equalTo: trailingAnchor),
-            collectionView.bottomAnchor.constraint(equalTo: bottomAnchor),
+            menuFilterView.topAnchor.constraint(
+                equalTo: contentView.topAnchor,
+                constant: 16
+            ),
+            menuFilterView.leadingAnchor.constraint(
+                equalTo: contentView.leadingAnchor,
+                constant: 16
+            ),
+        ])
+
+        // collectionView
+        NSLayoutConstraint.activate([
+            collectionView.topAnchor.constraint(
+                equalTo: menuFilterView.bottomAnchor,
+                constant: 16
+            ),
+            collectionView.leadingAnchor.constraint(
+                equalTo: contentView.leadingAnchor
+            ),
+            collectionView.trailingAnchor.constraint(
+                equalTo: contentView.trailingAnchor
+            ),
+            collectionView.bottomAnchor.constraint(
+                equalTo: contentView.bottomAnchor
+            ),
         ])
     }
 
@@ -139,6 +159,16 @@ extension MenuItemCell: UICollectionViewDataSource {
         cell.backgroundColor = contentItems[indexPath.item]
 
         return cell
+    }
+
+}
+
+// MARK: - MenuItemFilterDelegate
+
+extension MenuItemCell: MenuItemFilterDelegate {
+
+    func didSelectFilterAt(index: Int) {
+        print(#function, index)
     }
 
 }
