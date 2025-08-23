@@ -22,6 +22,8 @@ class HomeViewHeader: UIView {
         return imageView
     }()
 
+    let profileView = ProfileView()
+
     // MARK: Initializers
 
     override init(frame: CGRect) {
@@ -34,9 +36,9 @@ class HomeViewHeader: UIView {
         fatalError("init(coder:) has not been implemented")
     }
 
-    override var intrinsicContentSize: CGSize {
-        return CGSize(width: 200, height: 100)
-    }
+    //    override var intrinsicContentSize: CGSize {
+    //        return CGSize(width: 200, height: 160)
+    //    }
 
 }
 
@@ -48,6 +50,7 @@ extension HomeViewHeader {
         translatesAutoresizingMaskIntoConstraints = false
 
         addSubview(channelBanner)
+        addSubview(profileView)
 
         // channelBanner
         NSLayoutConstraint.activate([
@@ -57,6 +60,20 @@ extension HomeViewHeader {
             channelBanner.heightAnchor.constraint(equalToConstant: 100),
         ])
 
+        // profileView
+        NSLayoutConstraint.activate([
+            profileView.topAnchor.constraint(
+                equalTo: channelBanner.bottomAnchor,
+                constant: 10
+            ),
+            profileView.leadingAnchor.constraint(
+                equalTo: channelBanner.leadingAnchor
+            ),
+            profileView.trailingAnchor.constraint(
+                equalTo: channelBanner.trailingAnchor
+            ),
+            profileView.bottomAnchor.constraint(equalTo: bottomAnchor),
+        ])
     }
 
 }

@@ -113,11 +113,11 @@ extension HomeViewController {
             ),
             homeHeaderView.leadingAnchor.constraint(
                 equalTo: view.safeAreaLayoutGuide.leadingAnchor,
-                constant: 8
+                constant: 16
             ),
             homeHeaderView.trailingAnchor.constraint(
                 equalTo: view.safeAreaLayoutGuide.trailingAnchor,
-                constant: -8
+                constant: -16
             ),
             
         ])
@@ -157,6 +157,8 @@ extension HomeViewController {
                 equalTo: view.safeAreaLayoutGuide.bottomAnchor
             ),
         ])
+        
+        homeHeaderView.setContentHuggingPriority(.required, for: .vertical)
     }
 
 }
