@@ -34,6 +34,10 @@ class HomeViewHeader: UIView {
         fatalError("init(coder:) has not been implemented")
     }
 
+    override var intrinsicContentSize: CGSize {
+        return CGSize(width: 200, height: 100)
+    }
+
 }
 
 // MARK: - Helpers
@@ -41,6 +45,17 @@ class HomeViewHeader: UIView {
 extension HomeViewHeader {
 
     private func setupViews() {
+        translatesAutoresizingMaskIntoConstraints = false
+
+        addSubview(channelBanner)
+
+        // channelBanner
+        NSLayoutConstraint.activate([
+            channelBanner.topAnchor.constraint(equalTo: topAnchor),
+            channelBanner.leadingAnchor.constraint(equalTo: leadingAnchor),
+            channelBanner.trailingAnchor.constraint(equalTo: trailingAnchor),
+            channelBanner.heightAnchor.constraint(equalToConstant: 100),
+        ])
 
     }
 
