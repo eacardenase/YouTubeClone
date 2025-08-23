@@ -11,28 +11,7 @@ class MenuItemCell: UICollectionViewCell {
 
     // MARK: - Properties
 
-    let contentItems: [UIColor] = [
-        .systemRed,
-        .systemGreen,
-        .systemBlue,
-        .systemPink,
-        .systemYellow,
-        .systemRed,
-        .systemGreen,
-        .systemBlue,
-        .systemPink,
-        .systemYellow,
-        .systemRed,
-        .systemGreen,
-        .systemBlue,
-        .systemPink,
-        .systemYellow,
-        .systemRed,
-        .systemGreen,
-        .systemBlue,
-        .systemPink,
-        .systemYellow,
-    ]
+    var contentItems: [UIColor] = []
 
     let flowLayout: UICollectionViewFlowLayout = {
         let layout = UICollectionViewFlowLayout()

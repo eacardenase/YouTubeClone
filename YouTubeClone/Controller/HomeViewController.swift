@@ -9,6 +9,14 @@ import UIKit
 
 class HomeViewController: UIViewController {
 
+    enum MenuItem: Int, CaseIterable {
+        case home
+        case videos
+        case shorts
+        case playlists
+        case posts
+    }
+
     // MARK: - Properties
 
     lazy var menuBar: MenuBar = {
@@ -54,6 +62,21 @@ class HomeViewController: UIViewController {
     }()
 
     let colors: [UIColor] = [
+        .systemRed,
+        .systemGreen,
+        .systemBlue,
+        .systemPink,
+        .systemYellow,
+        .systemRed,
+        .systemGreen,
+        .systemBlue,
+        .systemPink,
+        .systemYellow,
+        .systemRed,
+        .systemGreen,
+        .systemBlue,
+        .systemPink,
+        .systemYellow,
         .systemRed,
         .systemGreen,
         .systemBlue,
@@ -178,7 +201,14 @@ extension HomeViewController: UICollectionViewDataSource {
             fatalError("Could not initialize MenuItemCell")
         }
 
-        cell.backgroundColor = colors[indexPath.row]
+        let menuItem = MenuItem(rawValue: indexPath.item)
+
+        switch menuItem {
+        case .shorts:
+            cell.contentItems = colors
+        default:
+            cell.contentItems = []
+        }
 
         return cell
     }
