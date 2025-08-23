@@ -34,16 +34,21 @@ class MenuItemCell: UICollectionViewCell {
         .systemYellow,
     ]
 
-    lazy var collectionView: UICollectionView = {
+    let flowLayout: UICollectionViewFlowLayout = {
         let layout = UICollectionViewFlowLayout()
 
         layout.minimumLineSpacing = 1
         layout.minimumInteritemSpacing = 1
         layout.scrollDirection = .vertical
 
+        return layout
+    }()
+
+    lazy var collectionView: UICollectionView = {
+
         let _collectionView = UICollectionView(
             frame: .zero,
-            collectionViewLayout: layout
+            collectionViewLayout: self.flowLayout
         )
 
         _collectionView.translatesAutoresizingMaskIntoConstraints = false
@@ -134,13 +139,14 @@ extension MenuItemCell: UICollectionViewDelegateFlowLayout {
         layout collectionViewLayout: UICollectionViewLayout,
         sizeForItemAt indexPath: IndexPath
     ) -> CGSize {
-        let width = frame.width / 3 - 1
-        let height = frame.width / 2
+        let numberOfItemsPerRow: CGFloat = 3
+        let spacing: CGFloat = flowLayout.minimumInteritemSpacing
 
-        return CGSize(
-            width: width,
-            height: height
-        )
+        let width = collectionView.bounds.width
+        let availableWidth = width - spacing * (numberOfItemsPerRow + 1)
+        let itemDimension = floor(availableWidth / numberOfItemsPerRow)
+
+        return CGSize(width: itemDimension, height: itemDimension * 1.5)
     }
 
 }
