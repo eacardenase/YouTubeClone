@@ -19,6 +19,17 @@ class HomeViewController: UIViewController {
 
     // MARK: - Properties
 
+    let channelBanner: UIImageView = {
+        let imageView = UIImageView(image: UIImage(named: "channels4_banner"))
+
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        imageView.contentMode = .scaleAspectFill
+        imageView.clipsToBounds = true
+        imageView.layer.cornerRadius = 8
+
+        return imageView
+    }()
+
     lazy var menuBar: MenuBar = {
         let menu = MenuBar()
 
@@ -99,14 +110,32 @@ class HomeViewController: UIViewController {
 extension HomeViewController {
 
     private func setupViews() {
+        view.addSubview(channelBanner)
         view.addSubview(menuBar)
         view.addSubview(divider)
         view.addSubview(collectionView)
 
+        // channelBanner
+        NSLayoutConstraint.activate([
+            channelBanner.topAnchor.constraint(
+                equalTo: view.safeAreaLayoutGuide.topAnchor
+            ),
+            channelBanner.leadingAnchor.constraint(
+                equalTo: view.safeAreaLayoutGuide.leadingAnchor,
+                constant: 8
+            ),
+            channelBanner.trailingAnchor.constraint(
+                equalTo: view.safeAreaLayoutGuide.trailingAnchor,
+                constant: -8
+            ),
+            channelBanner.heightAnchor.constraint(equalToConstant: 100),
+        ])
+
         // menuBar
         NSLayoutConstraint.activate([
             menuBar.topAnchor.constraint(
-                equalTo: view.safeAreaLayoutGuide.topAnchor
+                equalTo: channelBanner.bottomAnchor,
+                constant: 8
             ),
             menuBar.leadingAnchor.constraint(
                 equalTo: view.safeAreaLayoutGuide.leadingAnchor
