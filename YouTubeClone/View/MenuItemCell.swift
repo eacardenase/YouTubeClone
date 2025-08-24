@@ -7,19 +7,21 @@
 
 import UIKit
 
+protocol MenuItemCellDelegate: AnyObject {
+
+    func didScroll(to offset: CGPoint)
+
+}
+
 class MenuItemCell: UICollectionViewCell {
 
     // MARK: - Properties
 
+    weak var delegate: MenuItemCellDelegate?
+
     var contentItems: [UIColor] = []
 
-    lazy var menuFilterView: MenuItemFilter = {
-        let view = MenuItemFilter()
-
-        view.delegate = self
-
-        return view
-    }()
+    var menuFilterView: MenuItemFilter?
 
     let compositionalLayout: UICollectionViewCompositionalLayout = {
         let fraction: CGFloat = 1 / 3
@@ -52,6 +54,18 @@ class MenuItemCell: UICollectionViewCell {
         // Section
         let section = NSCollectionLayoutSection(group: group)
 
+        let headerItemSize = NSCollectionLayoutSize(
+            widthDimension: .fractionalWidth(0.8),
+            heightDimension: .estimated(100)
+        )
+        let headerItem = NSCollectionLayoutBoundarySupplementaryItem(
+            layoutSize: headerItemSize,
+            elementKind: UICollectionView
+                .elementKindSectionHeader,
+            alignment: .topLeading
+        )
+        section.boundarySupplementaryItems = [headerItem]
+
         return UICollectionViewCompositionalLayout(section: section)
     }()
 
@@ -69,6 +83,12 @@ class MenuItemCell: UICollectionViewCell {
         _collectionView.register(
             MenuContentCell.self,
             forCellWithReuseIdentifier: NSStringFromClass(MenuContentCell.self)
+        )
+        _collectionView.register(
+            MenuItemFilter.self,
+            forSupplementaryViewOfKind: UICollectionView
+                .elementKindSectionHeader,
+            withReuseIdentifier: NSStringFromClass(MenuItemFilter.self)
         )
 
         return _collectionView
@@ -92,25 +112,12 @@ class MenuItemCell: UICollectionViewCell {
 extension MenuItemCell {
 
     private func setupViews() {
-        contentView.addSubview(menuFilterView)
         contentView.addSubview(collectionView)
-
-        NSLayoutConstraint.activate([
-            menuFilterView.topAnchor.constraint(
-                equalTo: contentView.topAnchor,
-                constant: 16
-            ),
-            menuFilterView.leadingAnchor.constraint(
-                equalTo: contentView.leadingAnchor,
-                constant: 16
-            ),
-        ])
 
         // collectionView
         NSLayoutConstraint.activate([
             collectionView.topAnchor.constraint(
-                equalTo: menuFilterView.bottomAnchor,
-                constant: 16
+                equalTo: contentView.topAnchor,
             ),
             collectionView.leadingAnchor.constraint(
                 equalTo: contentView.leadingAnchor
@@ -135,6 +142,30 @@ extension MenuItemCell: UICollectionViewDelegate {
 // MARK: - UICollectionViewDataSource
 
 extension MenuItemCell: UICollectionViewDataSource {
+
+    func numberOfSections(in collectionView: UICollectionView) -> Int {
+        return 1
+    }
+
+    func collectionView(
+        _ collectionView: UICollectionView,
+        viewForSupplementaryElementOfKind kind: String,
+        at indexPath: IndexPath
+    ) -> UICollectionReusableView {
+        if let sectionHeader = collectionView.dequeueReusableSupplementaryView(
+            ofKind: kind,
+            withReuseIdentifier: NSStringFromClass(MenuItemFilter.self),
+            for: indexPath
+        ) as? MenuItemFilter {
+            sectionHeader.delegate = self
+
+            menuFilterView = sectionHeader
+
+            return sectionHeader
+        }
+
+        return UICollectionReusableView()
+    }
 
     func collectionView(
         _ collectionView: UICollectionView,
@@ -168,7 +199,17 @@ extension MenuItemCell: UICollectionViewDataSource {
 extension MenuItemCell: MenuItemFilterDelegate {
 
     func didSelectFilterAt(index: Int) {
-        menuFilterView.selectFilter(at: index)
+        menuFilterView?.selectFilter(at: index)
+    }
+
+}
+
+// MARK: - UIScrollViewDelegate
+
+extension MenuItemCell: UIScrollViewDelegate {
+
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        delegate?.didScroll(to: scrollView.contentOffset)
     }
 
 }

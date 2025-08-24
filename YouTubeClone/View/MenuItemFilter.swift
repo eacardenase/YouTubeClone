@@ -13,7 +13,7 @@ protocol MenuItemFilterDelegate: AnyObject {
 
 }
 
-class MenuItemFilter: UIView {
+class MenuItemFilter: UICollectionReusableView {
 
     // MARK: - Properties
 
@@ -76,8 +76,6 @@ class MenuItemFilter: UIView {
 extension MenuItemFilter {
 
     private func setupViews() {
-        translatesAutoresizingMaskIntoConstraints = false
-
         let stackView = UIStackView(arrangedSubviews: [
             latestButton,
             popularButton,
@@ -92,10 +90,10 @@ extension MenuItemFilter {
 
         // stackView
         NSLayoutConstraint.activate([
-            stackView.topAnchor.constraint(equalTo: topAnchor),
-            stackView.leadingAnchor.constraint(equalTo: leadingAnchor),
+            stackView.topAnchor.constraint(equalTo: topAnchor, constant: 16),
+            stackView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16),
             stackView.trailingAnchor.constraint(equalTo: trailingAnchor),
-            stackView.bottomAnchor.constraint(equalTo: bottomAnchor),
+            stackView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -16),
         ])
     }
 

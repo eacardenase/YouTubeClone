@@ -20,6 +20,7 @@ class HomeViewController: UIViewController {
     // MARK: - Properties
 
     let homeHeaderView = HomeViewHeader()
+    var homeHeaderViewTopConstraint = NSLayoutConstraint()
 
     lazy var menuBar: MenuBar = {
         let menu = MenuBar()
@@ -106,11 +107,13 @@ extension HomeViewController {
         view.addSubview(divider)
         view.addSubview(collectionView)
 
-        // channelBanner
+        homeHeaderViewTopConstraint = homeHeaderView.topAnchor.constraint(
+            equalTo: view.safeAreaLayoutGuide.topAnchor
+        )
+
+        // homeHeaderView
         NSLayoutConstraint.activate([
-            homeHeaderView.topAnchor.constraint(
-                equalTo: view.safeAreaLayoutGuide.topAnchor
-            ),
+            homeHeaderViewTopConstraint,
             homeHeaderView.leadingAnchor.constraint(
                 equalTo: view.safeAreaLayoutGuide.leadingAnchor,
                 constant: 16
@@ -119,7 +122,7 @@ extension HomeViewController {
                 equalTo: view.safeAreaLayoutGuide.trailingAnchor,
                 constant: -16
             ),
-            
+
         ])
 
         // menuBar
@@ -157,8 +160,6 @@ extension HomeViewController {
                 equalTo: view.safeAreaLayoutGuide.bottomAnchor
             ),
         ])
-        
-        homeHeaderView.setContentHuggingPriority(.required, for: .vertical)
     }
 
 }
@@ -224,8 +225,36 @@ extension HomeViewController: UICollectionViewDataSource {
         }
 
         cell.contentItems = colors
+        cell.delegate = self
 
         return cell
+    }
+
+}
+
+// MARK: - MenuItemCellDelegate
+
+extension HomeViewController: MenuItemCellDelegate {
+
+    func didScroll(to offset: CGPoint) {
+//        let y = offset.y
+//
+//        let headerViewHeight = homeHeaderView.frame.height
+//        let menuBarHeight = menuBar.frame.height
+//
+//        let swipingDown = y <= 0
+//        let shouldSnapHeader = y > 0
+//
+//        UIViewPropertyAnimator(duration: 0.3, curve: .easeInOut) {
+////            self.homeHeaderView.alpha = swipingDown ? 1.0 : 0.0
+//            
+//            self.homeHeaderViewTopConstraint.constant =
+//                shouldSnapHeader ? -headerViewHeight : 0
+//            
+//            self.collectionView.updateConstraints()
+//
+//            self.view.layoutIfNeeded()
+//        }.startAnimation()
     }
 
 }
