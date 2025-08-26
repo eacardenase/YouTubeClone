@@ -129,7 +129,7 @@ extension HomeViewController {
         NSLayoutConstraint.activate([
             menuBar.topAnchor.constraint(
                 equalTo: homeHeaderView.bottomAnchor,
-                constant: 8
+                constant: 16
             ),
             menuBar.leadingAnchor.constraint(
                 equalTo: view.safeAreaLayoutGuide.leadingAnchor

@@ -69,8 +69,17 @@ class HomeViewHeader: UIView {
 
         var config = UIButton.Configuration.gray()
         config.cornerStyle = .capsule
+        config.imagePadding = 8
+        config.image = UIImage(
+            systemName: "bell.slash",
+            withConfiguration: UIImage.SymbolConfiguration(scale: .medium)
+        )?.withTintColor(
+            .label,
+            renderingMode: .alwaysOriginal
+        )
 
         button.configuration = config
+        button.contentHorizontalAlignment = .center
 
         guard
             let fontDescriptor: UIFontDescriptor = .preferredFontDescriptor(
