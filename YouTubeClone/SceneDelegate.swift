@@ -20,7 +20,20 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
         window = UIWindow(windowScene: scene)
 
-        window?.rootViewController = HomeViewController()
+        let navController = UINavigationController(
+            rootViewController: HomeViewController()
+        )
+
+        let navAppereance = UINavigationBarAppearance()
+        navAppereance.backgroundColor = .systemBackground
+        navAppereance.shadowColor = nil
+
+        navController.navigationBar.standardAppearance = navAppereance
+        navController.navigationBar.compactAppearance = navAppereance
+        navController.navigationBar.scrollEdgeAppearance = navAppereance
+        navController.navigationBar.compactScrollEdgeAppearance = navAppereance
+
+        window?.rootViewController = navController
         window?.backgroundColor = .systemBackground
 
         window?.makeKeyAndVisible()
