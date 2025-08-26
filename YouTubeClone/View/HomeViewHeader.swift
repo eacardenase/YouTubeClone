@@ -18,11 +18,41 @@ class HomeViewHeader: UIView {
         imageView.contentMode = .scaleAspectFill
         imageView.clipsToBounds = true
         imageView.layer.cornerRadius = 8
+        imageView.heightAnchor.constraint(equalToConstant: 100).isActive = true
 
         return imageView
     }()
 
     let profileView = ProfileView()
+
+    let profileDescription: UILabel = {
+        let label = UILabel()
+
+        let attributedText = NSMutableAttributedString(
+            string:
+                "Videos that teach 8-bit hardware and software hacking by way of the original Nintendo Entertainment System. ",
+            attributes: [
+                .font: UIFont.preferredFont(forTextStyle: .footnote),
+                .foregroundColor: UIColor.secondaryLabel,
+            ]
+        )
+
+        attributedText.append(
+            NSAttributedString(
+                string: "...more",
+                attributes: [
+                    .font: UIFont.preferredFont(forTextStyle: .footnote),
+                    .foregroundColor: UIColor.label,
+                ]
+            )
+        )
+
+        label.attributedText = attributedText
+        label.numberOfLines = 0
+        label.lineBreakMode = .byWordWrapping
+
+        return label
+    }()
 
     // MARK: Initializers
 
@@ -36,10 +66,6 @@ class HomeViewHeader: UIView {
         fatalError("init(coder:) has not been implemented")
     }
 
-    //    override var intrinsicContentSize: CGSize {
-    //        return CGSize(width: 200, height: 160)
-    //    }
-
 }
 
 // MARK: - Helpers
@@ -49,30 +75,24 @@ extension HomeViewHeader {
     private func setupViews() {
         translatesAutoresizingMaskIntoConstraints = false
 
-        addSubview(channelBanner)
-        addSubview(profileView)
-
-        // channelBanner
-        NSLayoutConstraint.activate([
-            channelBanner.topAnchor.constraint(equalTo: topAnchor),
-            channelBanner.leadingAnchor.constraint(equalTo: leadingAnchor),
-            channelBanner.trailingAnchor.constraint(equalTo: trailingAnchor),
-            channelBanner.heightAnchor.constraint(equalToConstant: 100),
+        let stackView = UIStackView(arrangedSubviews: [
+            channelBanner,
+            profileView,
+            profileDescription,
         ])
 
-        // profileView
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        stackView.axis = .vertical
+        stackView.spacing = 16
+
+        addSubview(stackView)
+
+        // stackView
         NSLayoutConstraint.activate([
-            profileView.topAnchor.constraint(
-                equalTo: channelBanner.bottomAnchor,
-                constant: 10
-            ),
-            profileView.leadingAnchor.constraint(
-                equalTo: channelBanner.leadingAnchor
-            ),
-            profileView.trailingAnchor.constraint(
-                equalTo: channelBanner.trailingAnchor
-            ),
-            profileView.bottomAnchor.constraint(equalTo: bottomAnchor),
+            stackView.topAnchor.constraint(equalTo: topAnchor),
+            stackView.leadingAnchor.constraint(equalTo: leadingAnchor),
+            stackView.trailingAnchor.constraint(equalTo: trailingAnchor),
+            stackView.bottomAnchor.constraint(equalTo: bottomAnchor)
         ])
     }
 
